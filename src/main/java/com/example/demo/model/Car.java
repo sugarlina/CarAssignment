@@ -1,25 +1,24 @@
 package com.example.demo.model;
 
-import org.springframework.boot.context.properties.bind.DefaultValue;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
-//- Автомобил с :
-//		= двигател
-//		= собственик
-//		= марка
-//		= модел
-//		= година на производство
-//		= номер на автомобил
 @Entity(name = "car")
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Please, provide a brand.")
     private String brand;
+
+    @NotEmpty(message = "Please, provide a model.")
     private String model;
+
+    @NotEmpty(message = "Please, provide the year of production.")
     private int yearOfProduction;
+
+    @NotEmpty(message = "Please, provide a car number.")
     private String number;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Engine.class)
@@ -30,10 +29,14 @@ public class Car {
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
+    public Car() {
+
+    }
+
     public Car(Engine engine,Owner owner,Long id, String brand, String model, int yearOfProduction, String number) {
+        this.id = id;
         this.engine = engine;
         this.owner = owner;
-        this.id = id;
         this.brand = brand;
         this.model = model;
         this.yearOfProduction = yearOfProduction;
@@ -82,5 +85,18 @@ public class Car {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id = " + id +
+                ", engine= " + engine +
+                ", owner= " + owner +
+                ", brand= '" + brand + '\'' +
+                ", model= '" + model + '\'' +
+                ", year of production= " + yearOfProduction +
+                ", number= '" + number + '\'' +
+                "}";
     }
 }

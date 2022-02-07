@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 
 @Entity(name = "engine")
@@ -10,11 +11,19 @@ public class Engine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Please, provide horse power.")
     private int horsePower;
+
+   @NotEmpty(message = "Please, provide volume.")
     private int volume;
 
     @Column(name = "engineNumber")
+    @NotEmpty(message = "Please, provide engine number.")
     private String engineNumber;
+
+    public Engine() {
+
+    }
 
     public Engine(Long id, int horsePower, int volume, String engineNumber) {
         this.id = id;
@@ -49,5 +58,15 @@ public class Engine {
 
     public void setEngineNumber(String engineNumber) {
         this.engineNumber = engineNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Engine{" +
+                "id = " + id +
+                ", horsePower= " + horsePower +
+                ", volume= " + volume +
+                ", engineNumber= '" + engineNumber + '\'' +
+                "}";
     }
 }
